@@ -28,7 +28,7 @@ SQL code used for analysis:
        GROUP by b.stars;
 		
 		
-	+--------------------------------+-----------+------------------+-------+---------------------+--------------+-------------+
+    +--------------------------------+-----------+------------------+-------+---------------------+--------------+-------------+
     | name                           | city      | category         | stars | hours               | review_count | postal_code |
     +--------------------------------+-----------+------------------+-------+---------------------+--------------+-------------+
     | Walgreens                      | Las Vegas | Beauty & Spas    |   2.5 | Saturday|8:00-22:00 |            6 | 89121       |
@@ -54,9 +54,9 @@ SQL code used for analysis:
         is_open,
         sum(review_count)
     FROM business
-    GROUP BY is_open;
+      GROUP BY is_open;
 	
-	+---------------+---------+-------------------+
+    +---------------+---------+-------------------+
     |    AVG(stars) | is_open | sum(review_count) |
     +---------------+---------+-------------------+
     | 3.52039473684 |       0 |             35261 |
@@ -68,13 +68,13 @@ SQL code used for analysis:
 Ideas for analysis include: Parsing out keywords and business attributes for sentiment analysis, clustering businesses to find commonalities or anomalies between them, predicting the overall star rating for a business, predicting the number of fans a user will have, and so on. These are just a few examples to get you started, so feel free to be creative and come up with your own problem you want to solve. Provide answers, in-line, to all of the following:
 	
 i. Indicate the type of analysis you chose to do:
-    In my analysis, I will like to know Which among the two is the major contributor of high star rating. Whether it is food or service?     
+  I am doing a descriptive analysis, and in my analysis, I will like to know Which among the two is the major contributor of high star rating, Whether it is food or service?     
          
 ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
     I will simply be looking for how many reviews for stars between 4 - 5 made mention of "food" or "service".                       
                   
 iii. Output of your finished dataset:
-        It is clear from my findings that more customers who had good reviews for Restaurants, had somthing to say about the food.
+     It is clear from my findings that more customers who had good reviews for Restaurants, had somthing to say about the food.
          
     +-------------+------+---------+
     | category    | food | service |
@@ -85,15 +85,15 @@ iii. Output of your finished dataset:
 iv. Provide the SQL code you used to create your final dataset:
 
 SELECT c.category,
-       (SELECT Count(text) 
-          FROM review 
-           WHERE text Like '%food%') As food, 
-	    (SELECT Count(text) 
-	      FROM review 
-	       WHERE text Like '%service%') As service
+        (SELECT Count(text) 
+        FROM review 
+        WHERE text Like '%food%') As food, 
+	(SELECT Count(text) 
+        FROM review 
+	WHERE text Like '%service%') As service
 FROM review R INNER JOIN business B
-		ON  R.id = B.id
-		INNER JOIN category C
-		ON C.business_id = B.id
+	ON  R.id = B.id
+	INNER JOIN category C
+	ON C.business_id = B.id
 WHERE  R.stars between 4 AND 5
-		AND c.category =='Restaurants';
+	AND c.category =='Restaurants';
